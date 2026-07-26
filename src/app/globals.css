@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    font-feature-settings: "kern" 1, "liga" 1;
+    @apply bg-beige text-espresso overflow-x-hidden;
+    /* Subtle Indian dotwork background pattern */
+    background-image:
+      radial-gradient(circle, rgba(139, 94, 60, 0.08) 1px, transparent 1px),
+      radial-gradient(circle, rgba(200, 169, 126, 0.05) 1px, transparent 1px);
+    background-size: 32px 32px, 64px 64px;
+    background-position: 0 0, 16px 16px;
+  }
+
+  ::selection {
+    @apply bg-camel text-chocolate;
+  }
+
+  /* Typography defaults */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-yanone uppercase font-bold;
+    letter-spacing: -0.02em;
+  }
+
+  button, a {
+    touch-action: manipulation;
+  }
+}
+
+@layer components {
+  .section-wrap {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12;
+  }
+
+  .section-pad {
+    @apply py-12 sm:py-20 lg:py-28;
+  }
+
+  /* Square buttons with thick borders */
+  .btn-primary {
+    @apply inline-flex items-center justify-center border-2 border-espresso bg-espresso text-beige px-6 py-3 min-h-[44px] font-yanone uppercase tracking-widest text-xl transition-colors hover:bg-transparent hover:text-espresso active:scale-[0.98];
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center border-2 border-espresso bg-transparent text-espresso px-6 py-3 min-h-[44px] font-yanone uppercase tracking-widest text-xl transition-colors hover:bg-espresso hover:text-beige active:scale-[0.98];
+  }
+
+  /* Indian decorative divider */
+  .indian-divider {
+    @apply relative my-2 h-5 w-full overflow-hidden opacity-30;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Touch Snap Carousel */
+  .snap-carousel {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .snap-carousel-item {
+    scroll-snap-align: center;
+  }
+
+  /* Slow spin for mandalas */
+  .animate-slow-spin {
+    animation: slowSpin 20s linear infinite;
+  }
+
+  /* Gentle float for doodles */
+  .animate-float {
+    animation: floatY 6s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: floatY 7s ease-in-out infinite 1.5s;
+  }
+
+  /* Subtle breathe */
+  .animate-breathe {
+    animation: breathe 4s ease-in-out infinite;
+  }
+}
+
+@keyframes slowSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 0.55; transform: scale(1.06); }
+}
+
+@keyframes stickyIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

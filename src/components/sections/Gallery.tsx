@@ -93,12 +93,12 @@ export function Gallery() {
         </div>
 
         {/* Filter Category Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 mb-12">
+        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 md:gap-4 mb-8 sm:mb-12">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`font-yanone text-lg uppercase tracking-widest px-5 py-2 transition-all border ${
+              className={`font-yanone text-base sm:text-lg uppercase tracking-widest px-3 py-1 sm:px-5 sm:py-2 transition-all border ${
                 activeCategory === cat
                   ? "bg-espresso text-beige border-espresso shadow-[4px_4px_0px_rgba(75,54,33,0.15)]"
                   : "bg-sand text-espresso border-espresso/30 hover:border-espresso hover:bg-beige"
@@ -109,8 +109,8 @@ export function Gallery() {
           ))}
         </div>
 
-        {/* Responsive Masonry Grid */}
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Responsive Grid - 2 columns on mobile */}
+        <motion.div layout className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           <AnimatePresence mode="popLayout">
             {filteredItems.map((item, index) => (
               <motion.div
@@ -135,26 +135,26 @@ export function Gallery() {
                   alt={item.alt}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
                 />
 
                 {/* Dark Hover Overlay & Caption */}
-                <div className="absolute inset-0 bg-espresso/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6 z-10">
+                <div className="absolute inset-0 bg-espresso/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-3 sm:p-6 z-10">
                   <div className="flex justify-between items-start">
-                    <span className="bg-cinnamon text-beige text-[10px] font-yanone uppercase tracking-widest px-2.5 py-1">
+                    <span className="bg-cinnamon text-beige text-[8px] sm:text-[10px] font-yanone uppercase tracking-widest px-1.5 sm:px-2.5 py-0.5 sm:py-1">
                       {item.category}
                     </span>
-                    <RangoliDiamond size={18} color="#F5EFE6" opacity={0.8} />
+                    <RangoliDiamond size={14} color="#F5EFE6" opacity={0.8} />
                   </div>
 
                   <div>
-                    <h3 className="font-yanone text-3xl uppercase tracking-wider text-beige mb-1">
+                    <h3 className="font-yanone text-lg sm:text-3xl uppercase tracking-wider text-beige mb-0.5 sm:mb-1">
                       {item.title}
                     </h3>
-                    <p className="font-sans text-xs text-beige/70">
+                    <p className="font-sans text-[10px] sm:text-xs text-beige/70 line-clamp-2 sm:line-clamp-none">
                       {item.alt}
                     </p>
-                    <span className="inline-block mt-3 font-yanone text-sm uppercase tracking-widest text-camel">
+                    <span className="inline-block mt-1 sm:mt-3 font-yanone text-xs sm:text-sm uppercase tracking-widest text-camel">
                       Click to expand ↗
                     </span>
                   </div>
@@ -162,7 +162,7 @@ export function Gallery() {
 
                 {/* Always visible subtle border accent */}
                 <div className="absolute bottom-2 left-2 z-10 opacity-70 group-hover:opacity-0 transition-opacity">
-                  <span className="bg-espresso/80 text-beige text-[9px] font-yanone uppercase tracking-widest px-2 py-0.5">
+                  <span className="bg-espresso/80 text-beige text-[8px] sm:text-[9px] font-yanone uppercase tracking-widest px-1.5 sm:px-2 py-0.5">
                     {item.category}
                   </span>
                 </div>

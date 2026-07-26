@@ -137,7 +137,7 @@ export function Hero() {
           </div>
 
           <p className="font-sans text-xs uppercase tracking-[0.25em] text-cinnamon mb-3">
-            Est. Mumbai — Now in New York
+            Est. Mumbai — 2026
           </p>
 
           <h1 className="font-yanone text-5xl xs:text-6xl sm:text-[90px] md:text-[110px] lg:text-[125px] leading-[0.88] text-espresso uppercase tracking-tighter mb-6">

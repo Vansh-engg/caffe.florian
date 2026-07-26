@@ -1,11 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { SafeImage } from "@/components/ui/SafeImage";
-import { SPECIALS_DATA } from "@/lib/constants";
+import { SPECIALS_DATA, SpecialItem } from "@/lib/constants";
 import { IndianBorderStrip, MiniMandala, RangoliDiamond } from "@/components/ui/IndianDoodles";
+import { ItemDetailModal } from "@/components/ui/ItemDetailModal";
 
 export function OurSpecials() {
+  const [selectedItem, setSelectedItem] = useState<SpecialItem | null>(null);
+
   return (
     <section
       id="specials"
@@ -37,7 +41,7 @@ export function OurSpecials() {
             Curated Specials
           </h2>
           <p className="font-sans text-base text-chocolate leading-relaxed">
-            A tight collection of our most beloved brews, artisanal toasties, and traditional sweets — prepared fresh upon every order.
+            A tight collection of our most beloved brews, artisanal toasties, and traditional sweets — click any item to explore ingredients & details.
           </p>
         </div>
 
@@ -46,11 +50,20 @@ export function OurSpecials() {
           {SPECIALS_DATA.map((item) => (
             <div
               key={item.id}
-              className="group bg-sand border-2 border-espresso/30 p-2 sm:p-4 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-espresso hover:shadow-[6px_6px_0px_rgba(75,54,33,0.15)]"
+              onClick={() => setSelectedItem(item)}
+              tabIndex={0}
+              role="button"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setSelectedItem(item);
+                }
+              }}
+              className="group bg-sand border-2 border-espresso/30 p-2.5 sm:p-4 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-espresso hover:shadow-[6px_6px_0px_rgba(75,54,33,0.18)] cursor-pointer focus:outline-none focus:ring-2 focus:ring-cinnamon"
             >
               <div>
                 {/* Image Container with Hover Zoom */}
-                <div className="relative aspect-[4/3] w-full overflow-hidden border border-espresso/20 mb-4 bg-beige">
+                <div className="relative aspect-[4/3] w-full overflow-hidden border border-espresso/20 mb-3 sm:mb-4 bg-beige">
                   <SafeImage
                     src={item.image}
                     alt={item.name}
@@ -93,14 +106,21 @@ export function OurSpecials() {
                       }`}
                     />
                   </span>
+
+                  {/* Hover Quick View Overlay */}
+                  <div className="absolute inset-0 bg-espresso/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                    <span className="bg-beige text-espresso font-yanone text-xs sm:text-sm uppercase tracking-widest px-3 py-1 border border-espresso shadow-sm transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      View Details 🔍
+                    </span>
+                  </div>
                 </div>
 
                 {/* Content */}
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1 sm:mb-2 gap-0.5 sm:gap-2">
-                  <h3 className="font-yanone text-base sm:text-2xl uppercase tracking-wider text-espresso group-hover:text-cinnamon transition-colors leading-tight">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1 sm:mb-2 gap-1 sm:gap-2">
+                  <h3 className="font-yanone text-lg sm:text-2xl uppercase tracking-wider text-espresso group-hover:text-cinnamon transition-colors leading-tight">
                     {item.name}
                   </h3>
-                  <span className="font-yanone text-base sm:text-2xl text-cinnamon font-bold shrink-0">
+                  <span className="font-yanone text-xl sm:text-2xl md:text-3xl text-cinnamon font-black tracking-tight shrink-0">
                     {item.price}
                   </span>
                 </div>
@@ -112,15 +132,15 @@ export function OurSpecials() {
 
               {/* Card Footer */}
               <div className="pt-2 sm:pt-3 border-t border-espresso/15 flex items-center justify-between">
-                <span className="font-sans text-[8px] sm:text-[10px] uppercase tracking-widest text-cinnamon">
+                <span className="font-sans text-[8px] sm:text-[10px] uppercase tracking-widest text-cinnamon font-semibold">
                   {item.dietary === "veg"
                     ? "• Veg"
                     : item.dietary === "vegan"
                     ? "• Vegan"
                     : "• Non-Veg"}
                 </span>
-                <span className="font-yanone text-xs sm:text-sm uppercase tracking-wider text-espresso opacity-0 group-hover:opacity-100 transition-opacity hidden sm:inline">
-                  Order Fresh →
+                <span className="font-yanone text-xs sm:text-sm uppercase tracking-wider text-cinnamon font-bold flex items-center gap-1 group-hover:underline">
+                  View Details →
                 </span>
               </div>
             </div>
@@ -141,6 +161,13 @@ export function OurSpecials() {
         </div>
 
       </div>
+
+      {/* Item Details Modal */}
+      <ItemDetailModal
+        item={selectedItem ? { ...selectedItem, categoryTitle: "Curated Specials" } : null}
+        onClose={() => setSelectedItem(null)}
+      />
     </section>
   );
 }
+

@@ -5,11 +5,13 @@ import { motion } from "framer-motion";
 import { Navigation } from "@/components/sections/Navigation";
 import { Footer } from "@/components/sections/Footer";
 import { SafeImage } from "@/components/ui/SafeImage";
-import { COMPLETE_MENU_CATEGORIES } from "@/lib/constants";
+import { COMPLETE_MENU_CATEGORIES, MenuItem } from "@/lib/constants";
 import { IndianBorderStrip, MiniMandala, RangoliDiamond, Lotus } from "@/components/ui/IndianDoodles";
+import { ItemDetailModal, ModalItem } from "@/components/ui/ItemDetailModal";
 
 export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedItem, setSelectedItem] = useState<ModalItem | null>(null);
 
   // Filter items by category tab
   const filteredCategories = useMemo(() => {
@@ -63,7 +65,7 @@ export default function MenuPage() {
             The Complete Menu
           </h1>
           <p className="font-sans text-sm sm:text-base text-chocolate leading-relaxed mb-6 sm:mb-8">
-            From single-origin estate brews and spiced kulhad chai to artisanal sourdough toasties, freshly baked mawa cakes, and wood-fired pizzas.
+            From single-origin estate brews and spiced kulhad chai to artisanal sourdough toasties, freshly baked mawa cakes, and wood-fired pizzas. Click any item for details.
           </p>
           <div className="flex justify-center mb-6 sm:mb-8">
             <IndianBorderStrip width={280} opacity={0.35} />
@@ -168,14 +170,23 @@ export default function MenuPage() {
 
                   {/* Category Items Grid */}
                   <div className="grid grid-cols-2 md:grid-cols-2 gap-2.5 sm:gap-4 md:gap-6">
-                    {category.items.map((item) => (
+                    {category.items.map((item: MenuItem) => (
                       <motion.div
                         key={item.id}
                         initial={{ opacity: 0, y: 15 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.3 }}
-                        className="bg-sand border-2 border-espresso/25 p-2 sm:p-4 md:p-5 flex flex-col sm:flex-row gap-2 sm:gap-4 hover:border-espresso hover:shadow-[4px_4px_0px_rgba(75,54,33,0.12)] transition-all duration-300 group"
+                        onClick={() => setSelectedItem({ ...item, categoryTitle: category.title })}
+                        tabIndex={0}
+                        role="button"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            setSelectedItem({ ...item, categoryTitle: category.title });
+                          }
+                        }}
+                        className="bg-sand border-2 border-espresso/25 p-2 sm:p-4 md:p-5 flex flex-col sm:flex-row gap-2 sm:gap-4 hover:border-espresso hover:shadow-[4px_4px_0px_rgba(75,54,33,0.15)] transition-all duration-300 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-cinnamon"
                       >
                         {/* Food Photography Image */}
                         <div className="relative w-full sm:w-32 md:w-36 h-24 sm:h-36 shrink-0 border border-espresso/20 bg-beige overflow-hidden">
@@ -223,7 +234,8 @@ export default function MenuPage() {
                               <h3 className="font-yanone text-sm sm:text-xl md:text-2xl uppercase tracking-wider text-espresso group-hover:text-cinnamon transition-colors leading-tight">
                                 {item.name}
                               </h3>
-                              <span className="font-yanone text-sm sm:text-xl md:text-2xl text-cinnamon font-bold shrink-0">
+                              {/* Price - Prominently sized */}
+                              <span className="font-yanone text-base sm:text-2xl md:text-3xl text-cinnamon font-black tracking-tight shrink-0">
                                 {item.price}
                               </span>
                             </div>
@@ -234,15 +246,15 @@ export default function MenuPage() {
                           </div>
 
                           <div className="pt-1.5 sm:pt-2 border-t border-espresso/10 flex items-center justify-between">
-                            <span className="font-sans text-[8px] sm:text-[10px] uppercase tracking-widest text-cinnamon">
+                            <span className="font-sans text-[8px] sm:text-[10px] uppercase tracking-widest text-cinnamon font-semibold">
                               {item.dietary === "veg"
                                 ? "Veg"
                                 : item.dietary === "vegan"
                                 ? "Vegan"
                                 : "Non-Veg"}
                             </span>
-                            <span className="font-sans text-[9px] sm:text-[11px] font-semibold text-espresso opacity-70 group-hover:opacity-100 hidden sm:inline">
-                              Handcrafted Fresh
+                            <span className="font-yanone text-xs sm:text-sm uppercase tracking-wider text-cinnamon font-bold flex items-center gap-1 group-hover:underline">
+                              View Details →
                             </span>
                           </div>
                         </div>
@@ -267,6 +279,10 @@ export default function MenuPage() {
       </div>
 
       <Footer />
+
+      {/* Item Detail Modal */}
+      <ItemDetailModal item={selectedItem} onClose={() => setSelectedItem(null)} />
     </main>
   );
 }
+

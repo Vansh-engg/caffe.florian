@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SafeImage } from "@/components/ui/SafeImage";
-import { GALLERY_DATA, GalleryItem } from "@/lib/constants";
+import { GALLERY_DATA } from "@/lib/constants";
 import { IndianBorderStrip, Lotus, MiniMandala, RangoliDiamond } from "@/components/ui/IndianDoodles";
 
 const CATEGORIES = ["All", "Coffee", "Food", "Interior", "Desserts", "Lifestyle"] as const;

@@ -3,7 +3,6 @@
 const ESPRESSO = "#4B3621";
 const CINNAMON = "#8B5E3C";
 const CAMEL = "#C8A97E";
-const SAND = "#E8DDCF";
 
 /* ─── Paisley ─── */
 export function Paisley({

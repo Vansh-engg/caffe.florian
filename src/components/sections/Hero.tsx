@@ -7,7 +7,6 @@ import {
   Paisley,
   Lotus,
   MiniMandala,
-  RangoliDiamond,
   PeacockFeather,
   IndianBorderStrip,
 } from "@/components/ui/IndianDoodles";

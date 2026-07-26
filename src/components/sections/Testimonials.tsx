@@ -48,7 +48,7 @@ export function Testimonials() {
                   ))}
                 </div>
                 <p className="font-sans text-base md:text-lg text-chocolate leading-relaxed mb-6 italic">
-                  "{testimonial.quote}"
+                  &quot;{testimonial.quote}&quot;
                 </p>
               </div>
 

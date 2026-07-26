@@ -178,16 +178,18 @@ export function Gallery() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-espresso/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
+              className="fixed inset-0 z-50 bg-espresso/95 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 md:p-8"
               onClick={closeLightbox}
             >
-              {/* Close Button */}
+              {/* Main Top Close Button */}
               <button
                 onClick={closeLightbox}
-                className="absolute top-6 right-6 z-50 text-beige hover:text-cinnamon border-2 border-beige/40 p-2 font-sans text-xl leading-none transition-colors"
+                className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[100] bg-espresso text-beige hover:bg-cinnamon border-2 border-beige shadow-lg w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-colors active:scale-95"
                 aria-label="Close Lightbox"
               >
-                ✕
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
 
               {/* Prev Button */}
@@ -196,10 +198,12 @@ export function Gallery() {
                   e.stopPropagation();
                   prevLightbox();
                 }}
-                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-50 text-beige hover:text-cinnamon border-2 border-beige/40 p-3 md:p-4 font-yanone text-2xl transition-colors bg-espresso/80"
+                className="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-50 text-beige hover:text-cinnamon border-2 border-beige/40 p-2 sm:p-3 md:p-4 font-yanone transition-colors bg-espresso/90 shadow-md active:scale-95"
                 aria-label="Previous Image"
               >
-                ←
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" d="M15 19l-7-7 7-7" />
+                </svg>
               </button>
 
               {/* Next Button */}
@@ -208,10 +212,12 @@ export function Gallery() {
                   e.stopPropagation();
                   nextLightbox();
                 }}
-                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-50 text-beige hover:text-cinnamon border-2 border-beige/40 p-3 md:p-4 font-yanone text-2xl transition-colors bg-espresso/80"
+                className="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-50 text-beige hover:text-cinnamon border-2 border-beige/40 p-2 sm:p-3 md:p-4 font-yanone transition-colors bg-espresso/90 shadow-md active:scale-95"
                 aria-label="Next Image"
               >
-                →
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" d="M9 5l7 7-7 7" />
+                </svg>
               </button>
 
               {/* Image & Caption Container */}
@@ -219,7 +225,18 @@ export function Gallery() {
                 className="relative max-w-5xl max-h-[85vh] w-full flex flex-col items-center justify-center"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="relative w-full h-[60vh] md:h-[70vh] border-4 border-beige p-2 bg-sand shadow-2xl">
+                <div className="relative w-full h-[55vh] sm:h-[65vh] md:h-[70vh] border-2 sm:border-4 border-beige p-1.5 sm:p-2 bg-sand shadow-2xl overflow-hidden">
+                  {/* Additional In-Card Close Cross Button for mobile ease */}
+                  <button
+                    onClick={closeLightbox}
+                    className="absolute top-2 right-2 z-30 bg-espresso/90 text-beige hover:bg-cinnamon border border-beige/50 w-8 h-8 flex items-center justify-center transition-colors rounded-none"
+                    aria-label="Close"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+
                   <SafeImage
                     src={filteredItems[lightboxIndex].src}
                     alt={filteredItems[lightboxIndex].alt}
@@ -230,14 +247,14 @@ export function Gallery() {
                 </div>
 
                 {/* Caption Bar */}
-                <div className="mt-4 text-center text-beige max-w-xl">
-                  <span className="inline-block bg-cinnamon text-beige text-xs font-yanone uppercase tracking-widest px-3 py-1 mb-2">
+                <div className="mt-3 sm:mt-4 text-center text-beige max-w-xl px-2">
+                  <span className="inline-block bg-cinnamon text-beige text-[10px] sm:text-xs font-yanone uppercase tracking-widest px-2.5 py-0.5 sm:px-3 sm:py-1 mb-1 sm:mb-2">
                     {filteredItems[lightboxIndex].category} • {lightboxIndex + 1} / {filteredItems.length}
                   </span>
-                  <h3 className="font-yanone text-3xl uppercase tracking-wider text-beige">
+                  <h3 className="font-yanone text-xl sm:text-3xl uppercase tracking-wider text-beige">
                     {filteredItems[lightboxIndex].title}
                   </h3>
-                  <p className="font-sans text-sm text-beige/70 mt-1">
+                  <p className="font-sans text-xs sm:text-sm text-beige/70 mt-0.5 sm:mt-1">
                     {filteredItems[lightboxIndex].alt}
                   </p>
                 </div>

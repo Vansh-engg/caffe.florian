@@ -9,36 +9,22 @@ import { COMPLETE_MENU_CATEGORIES } from "@/lib/constants";
 import { IndianBorderStrip, MiniMandala, RangoliDiamond, Lotus } from "@/components/ui/IndianDoodles";
 
 export default function MenuPage() {
-  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
-  // Filter items by search query & category tab
+  // Filter items by category tab
   const filteredCategories = useMemo(() => {
     return COMPLETE_MENU_CATEGORIES.map((cat) => {
-      // Category match check
       if (selectedCategory !== "all" && cat.id !== selectedCategory) {
         return { ...cat, items: [] };
       }
-
-      // Search match check
-      if (!searchQuery.trim()) return cat;
-
-      const query = searchQuery.toLowerCase();
-      const matchingItems = cat.items.filter(
-        (item) =>
-          item.name.toLowerCase().includes(query) ||
-          item.description.toLowerCase().includes(query)
-      );
-
-      return { ...cat, items: matchingItems };
+      return cat;
     }).filter((cat) => cat.items.length > 0);
-  }, [searchQuery, selectedCategory]);
+  }, [selectedCategory]);
 
   // Handle category selection with smooth scroll
   const handleCategoryClick = useCallback((categoryId: string) => {
     setSelectedCategory(categoryId);
     if (categoryId !== "all") {
-      // Small delay to let the DOM update after filtering
       setTimeout(() => {
         const el = document.getElementById(`category-${categoryId}`);
         if (el) {
@@ -81,36 +67,6 @@ export default function MenuPage() {
           </p>
           <div className="flex justify-center mb-6 sm:mb-8">
             <IndianBorderStrip width={280} opacity={0.35} />
-          </div>
-
-          {/* Search Bar */}
-          <div className="relative max-w-xl mx-auto mb-4">
-            <input
-              type="text"
-              placeholder="Search coffee, chai, vada pav, pizza..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-beige border-2 border-espresso px-4 py-3 sm:px-5 sm:py-3.5 pl-11 font-sans text-sm text-espresso placeholder:text-espresso/40 outline-none focus:ring-2 focus:ring-cinnamon/20 shadow-[4px_4px_0px_rgba(75,54,33,0.15)] transition-all"
-            />
-            {/* Search icon — SVG instead of emoji */}
-            <svg
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-cinnamon"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2.5}
-              viewBox="0 0 24 24"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.35-4.35" strokeLinecap="round" />
-            </svg>
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-sans text-chocolate hover:text-espresso p-1"
-              >
-                Clear
-              </button>
-            )}
           </div>
 
           {/* Dietary Legend */}
@@ -178,17 +134,13 @@ export default function MenuPage() {
               <h3 className="font-yanone text-2xl sm:text-3xl uppercase tracking-wider text-espresso mt-3 mb-2">
                 No menu items found
               </h3>
-              <p className="font-sans text-xs sm:text-sm text-chocolate mb-6">
-                We couldn&apos;t find anything matching &quot;{searchQuery}&quot;. Try searching for coffee, chai, sandwich, or cake.
-              </p>
               <button
                 onClick={() => {
-                  setSearchQuery("");
                   setSelectedCategory("all");
                 }}
                 className="btn-primary"
               >
-                Reset Search Filters
+                Reset Category Filter
               </button>
             </div>
           ) : (
@@ -199,7 +151,7 @@ export default function MenuPage() {
                   id={`category-${category.id}`}
                   className="scroll-mt-32 sm:scroll-mt-36"
                 >
-                  {/* Category Header Banner — no emoji icon */}
+                  {/* Category Header Banner */}
                   <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b-2 border-espresso pb-3 mb-6">
                     <div>
                       <h2 className="font-yanone text-3xl sm:text-4xl md:text-5xl uppercase tracking-wider text-espresso mb-1">
